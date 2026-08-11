@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andrea Ronconi — Infrastructure & Technical Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #151b23;
+    --surface-2: #1c2530;
+    --border: #2a3441;
+    --text: #e6edf3;
+    --text-dim: #8b98a5;
+    --teal: #4fd1c5;
+    --amber: #e8a33d;
+    --teal-dim: rgba(79, 209, 197, 0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: var(--teal-dim); color: var(--teal); }
+
+  /* Skip link for accessibility */
+  .skip-link {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--teal); color: var(--bg); padding: 12px 20px; z-index: 999;
+  }
+  .skip-link:focus { left: 20px; top: 20px; }
+
+  :focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+  }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 28px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+  .brand { font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 15px; color: var(--text); }
+  .brand span { color: var(--teal); }
+  .navlinks { display: flex; gap: 32px; font-family: 'IBM Plex Mono'; font-size: 13px; color: var(--text-dim); }
+  .navlinks a:hover { color: var(--teal); }
+  @media (max-width: 640px) { .navlinks { display: none; } }
+
+  /* HERO */
+  .hero {
+    padding: 160px 0 100px;
+    position: relative;
+  }
+  .status-line {
+    font-family: 'IBM Plex Mono'; font-size: 12px; color: var(--teal);
+    display: flex; align-items: center; gap: 8px; margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .hero h1 {
+    font-size: clamp(32px, 5.5vw, 52px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    max-width: 780px;
+    margin-bottom: 20px;
+  }
+  .hero h1 .accent { color: var(--teal); }
+  .hero p.lede {
+    font-size: 17px; color: var(--text-dim); max-width: 560px; margin-bottom: 36px;
+  }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 44px;
+  }
+  .pill {
+    font-family: 'IBM Plex Mono'; font-size: 12px; color: var(--text-dim);
+    border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px;
+  }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    font-family: 'IBM Plex Mono'; font-size: 13px; font-weight: 500;
+    padding: 12px 22px; border-radius: 6px; display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.15s ease;
+  }
+  .btn-primary { background: var(--teal); color: var(--bg); }
+  .btn-primary:hover { background: #6ee0d5; transform: translateY(-1px); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* SECTION HEADERS */
+  .section { padding: 90px 0; border-top: 1px solid var(--border); }
+  .eyebrow {
+    font-family: 'IBM Plex Mono'; font-size: 12px; color: var(--teal);
+    letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .section h2 { font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; margin-bottom: 16px; letter-spacing: -0.01em; }
+  .section .desc { color: var(--text-dim); max-width: 620px; font-size: 15.5px; margin-bottom: 48px; }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 36px 28px; margin-top: 8px;
+  }
+  .arch-caption { font-family: 'IBM Plex Mono'; font-size: 12px; color: var(--text-dim); margin-top: 20px; text-align: center; }
+  .node-svg { width: 100%; height: auto; display: block; }
+  .node-label { font-family: 'IBM Plex Mono', monospace; font-size: 12px; fill: var(--text); }
+  .node-sub { font-family: 'IBM Plex Mono', monospace; font-size: 10px; fill: var(--text-dim); }
+  .node-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 600; fill: var(--text); }
+  .flow-dash { stroke-dasharray: 4 4; animation: dash 20s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset: -200; } }
+
+  /* PROJECTS */
+  .projects { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  .proj-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 28px; transition: border-color 0.2s ease;
+  }
+  .proj-card:hover { border-color: var(--teal); }
+  .proj-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+  .proj-card h3 { font-size: 18px; font-weight: 600; }
+  .proj-date { font-family: 'IBM Plex Mono'; font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+  .proj-card p { color: var(--text-dim); font-size: 14.5px; margin-bottom: 16px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-family: 'IBM Plex Mono'; font-size: 11px; color: var(--teal);
+    background: var(--teal-dim); padding: 4px 10px; border-radius: 4px;
+  }
+  .proj-link { font-family: 'IBM Plex Mono'; font-size: 12px; color: var(--text-dim); margin-top: 14px; display: inline-block; }
+  .proj-link:hover { color: var(--teal); }
+
+  /* STACK */
+  .stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .stack-cell { background: var(--surface); padding: 22px; }
+  .stack-cell .cat { font-family: 'IBM Plex Mono'; font-size: 11px; color: var(--amber); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .stack-cell ul { list-style: none; font-size: 14px; color: var(--text-dim); }
+  .stack-cell li { padding: 3px 0; }
+
+  /* CERTS */
+  .certs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .cert-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px;
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .cert-icon {
+    width: 36px; height: 36px; border-radius: 8px; background: rgba(232, 163, 61, 0.12);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .cert-card h4 { font-size: 14.5px; font-weight: 600; margin-bottom: 3px; }
+  .cert-card p { font-size: 12.5px; color: var(--text-dim); font-family: 'IBM Plex Mono'; }
+
+  /* LANGUAGES */
+  .lang-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .lang-chip { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; }
+  .lang-chip .name { font-size: 14px; font-weight: 500; }
+  .lang-chip .level { font-family: 'IBM Plex Mono'; font-size: 11px; color: var(--text-dim); }
+
+  /* CONTACT */
+  .contact-box {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid var(--border); border-radius: 14px; padding: 52px 40px; text-align: center;
+  }
+  .contact-box h2 { margin-bottom: 12px; }
+  .contact-box p { color: var(--text-dim); margin-bottom: 30px; }
+  .contact-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+  footer { padding: 40px 0; text-align: center; }
+  footer p { font-family: 'IBM Plex Mono'; font-size: 12px; color: var(--text-dim); }
+
+  /* TERMINAL */
+  .terminal {
+    background: #0a0e13; border: 1px solid var(--border); border-radius: 10px;
+    max-width: 480px; margin-bottom: 44px; overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(79, 209, 197, 0.15);
+  }
+  .term-bar { display: flex; gap: 7px; padding: 12px 14px; background: #10151c; border-bottom: 1px solid var(--border); }
+  .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .term-body { padding: 18px 18px 22px; font-size: 13px; color: #9fe8de; min-height: 108px; white-space: pre-wrap; line-height: 1.7; }
+  .term-body .prompt { color: var(--teal); }
+  .term-cursor { display: inline-block; width: 7px; height: 14px; background: var(--teal); vertical-align: middle; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to content</a>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">gt0u<span>_</span>labs</div>
+    <div class="navlinks">
+      <a href="#architecture">Architecture</a>
+      <a href="#projects">Projects</a>
+      <a href="#stack">Stack</a>
+      <a href="#certs">Certifications</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="status-line"><span class="dot"></span>OPEN TO WORK — EU / EFTA / SWITZERLAND</div>
+      <h1>I build infrastructure. Then I break it on purpose — <span class="accent">so I actually understand it.</span></h1>
+      <p class="lede">Self-taught systems professional — Linux, Docker, virtualization and monitoring — based in Bucharest, Romania. Italian citizen, open to relocation.</p>
+
+      <div class="terminal">
+        <div class="term-bar"><span class="term-dot" style="background:#ff5f56"></span><span class="term-dot" style="background:#ffbd2e"></span><span class="term-dot" style="background:#27c93f"></span></div>
+        <div class="term-body mono" id="termBody"></div>
+      </div>
+      <div class="hero-meta">
+        <span class="pill">Linux</span>
+        <span class="pill">Docker</span>
+        <span class="pill">Proxmox VE</span>
+        <span class="pill">Grafana / Loki</span>
+        <span class="pill">Networking</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="mailto:andrea.ronconi.jobs@gmail.com">Get in touch</a>
+        <a class="btn btn-ghost" href="Andrea_Ronconi_CV.pdf" target="_blank" rel="noopener">Download CV ↓</a>
+        <a class="btn btn-ghost" href="https://github.com/gt0u-labs" target="_blank" rel="noopener">View GitHub</a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/andrearonconi" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section class="section" id="architecture">
+    <div class="wrap">
+      <div class="eyebrow">What I actually run</div>
+      <h2>A two-node homelab, built and documented from scratch</h2>
+      <p class="desc">Not a diagram of a hypothetical system — this is the real lab, managed entirely over SSH and a web console, no keyboard or monitor required day-to-day.</p>
+
+      <div class="arch">
+        <svg class="node-svg" viewBox="0 0 960 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- connection lines -->
+          <line x1="230" y1="170" x2="380" y2="170" stroke="#2a3441" stroke-width="2"/>
+          <line x1="590" y1="170" x2="720" y2="170" stroke="#2a3441" stroke-width="2"/>
+          <line x1="230" y1="170" x2="380" y2="170" class="flow-dash" stroke="#4fd1c5" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <line x1="590" y1="170" x2="720" y2="170" class="flow-dash" stroke="#4fd1c5" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+          <!-- Node 1: Admin -->
+          <g>
+            <rect x="20" y="120" width="200" height="100" rx="10" fill="#1c2530" stroke="#2a3441"/>
+            <circle cx="42" cy="145" r="4" fill="#4fd1c5"/>
+            <text x="55" y="149" class="node-title">Mac (admin)</text>
+            <text x="42" y="172" class="node-sub">ssh + web console</text>
+            <text x="42" y="190" class="node-sub">no local KB/monitor needed</text>
+          </g>
+
+          <!-- Node 2: Monitoring server -->
+          <g>
+            <rect x="380" y="90" width="210" height="175" rx="10" fill="#1c2530" stroke="#2a3441"/>
+            <circle cx="402" cy="115" r="4" fill="#4fd1c5"/>
+            <text x="415" y="119" class="node-title">Node 1 — Ubuntu Server</text>
+            <text x="402" y="145" class="node-sub">Docker + Docker Compose</text>
+            <text x="402" y="163" class="node-sub">Grafana · Loki · Promtail</text>
+            <text x="402" y="181" class="node-sub">Uptime Kuma</text>
+            <text x="402" y="205" class="node-sub" fill="#e8a33d">centralized log</text>
+            <text x="402" y="219" class="node-sub" fill="#e8a33d">monitoring</text>
+          </g>
+
+          <!-- Node 3: Proxmox -->
+          <g>
+            <rect x="720" y="60" width="220" height="230" rx="10" fill="#1c2530" stroke="#2a3441"/>
+            <circle cx="742" cy="85" r="4" fill="#4fd1c5"/>
+            <text x="755" y="89" class="node-title">Node 2 — Proxmox VE</text>
+            <text x="742" y="115" class="node-sub">bare-metal hypervisor</text>
+            <rect x="742" y="130" width="178" height="42" rx="6" fill="#151b23" stroke="#2a3441"/>
+            <text x="752" y="147" class="node-label">Ubuntu Server VM</text>
+            <text x="752" y="163" class="node-sub">general-purpose target</text>
+            <rect x="742" y="182" width="178" height="42" rx="6" fill="#151b23" stroke="#2a3441"/>
+            <text x="752" y="199" class="node-label">Kali Linux VM</text>
+            <text x="752" y="215" class="node-sub">nmap · recon practice</text>
+            <text x="742" y="252" class="node-sub" fill="#e8a33d">VM provisioning</text>
+            <text x="742" y="266" class="node-sub" fill="#e8a33d">LVM storage</text>
+          </g>
+        </svg>
+        <p class="arch-caption">Managed remotely · SSH + Proxmox web console · zero on-site interaction required</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="eyebrow">Selected work</div>
+      <h2>Infrastructure projects</h2>
+      <p class="desc">Each one was set up, broken on purpose, fixed, and documented — not followed from a tutorial.</p>
+
+      <div class="projects">
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <h3>Virtualization & Security Lab</h3>
+            <span class="proj-date mono">2026</span>
+          </div>
+          <p>Two-VM lab on Proxmox VE: an Ubuntu Server target and a dedicated Kali Linux environment. Used Nmap to identify open services, versions and attack surface in a fully controlled setting.</p>
+          <div class="tag-row">
+            <span class="tag">Proxmox VE</span>
+            <span class="tag">Kali Linux</span>
+            <span class="tag">Nmap</span>
+            <span class="tag">LVM</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <h3>Centralized Log Monitoring Stack</h3>
+            <span class="proj-date mono">2026</span>
+          </div>
+          <p>Self-hosted observability stack aggregating logs from multiple Docker services into a single searchable dashboard — the same underlying principle behind SIEM tooling.</p>
+          <div class="tag-row">
+            <span class="tag">Grafana</span>
+            <span class="tag">Loki</span>
+            <span class="tag">Promtail</span>
+            <span class="tag">Docker Compose</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <h3>Service Monitoring & Incident Response</h3>
+            <span class="proj-date mono">2025</span>
+          </div>
+          <p>Simulated a service outage on purpose, detected it through Uptime Kuma, restored it, and wrote a full incident report with timeline and root-cause notes.</p>
+          <div class="tag-row">
+            <span class="tag">Uptime Kuma</span>
+            <span class="tag">Nginx</span>
+            <span class="tag">Incident Reporting</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <h3>Responsible Disclosure — Valve / Steam Link</h3>
+            <span class="proj-date mono">2025</span>
+          </div>
+          <p>Identified and reported an outdated FFmpeg dependency in the Steam Link Linux client through Valve's disclosure process — practical exposure to vulnerability analysis and reporting, independent of the outcome.</p>
+          <div class="tag-row">
+            <span class="tag">CVE Review</span>
+            <span class="tag">Responsible Disclosure</span>
+          </div>
+        </div>
+
+        <a class="proj-link" href="https://github.com/gt0u-labs/homelab-notes" target="_blank" rel="noopener">→ Full documentation on GitHub: gt0u-labs/homelab-notes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section class="section" id="stack">
+    <div class="wrap">
+      <div class="eyebrow">Toolbox</div>
+      <h2>Technical stack</h2>
+
+      <div class="stack-grid">
+        <div class="stack-cell">
+          <div class="cat">Systems</div>
+          <ul><li>Linux (Ubuntu, Arch, Kali)</li><li>Windows, macOS, WSL</li></ul>
+        </div>
+        <div class="stack-cell">
+          <div class="cat">Virtualization</div>
+          <ul><li>Proxmox VE</li><li>VM provisioning, LVM storage</li></ul>
+        </div>
+        <div class="stack-cell">
+          <div class="cat">Containers</div>
+          <ul><li>Docker</li><li>Docker Compose</li></ul>
+        </div>
+        <div class="stack-cell">
+          <div class="cat">Networking</div>
+          <ul><li>SSH, DNS, NAT</li><li>Tailscale, reverse proxies</li></ul>
+        </div>
+        <div class="stack-cell">
+          <div class="cat">Monitoring</div>
+          <ul><li>Grafana, Loki, Promtail</li><li>Uptime Kuma</li></ul>
+        </div>
+        <div class="stack-cell">
+          <div class="cat">Security</div>
+          <ul><li>Nmap, Burp Suite</li><li>CVE review</li></ul>
+        </div>
+        <div class="stack-cell">
+          <div class="cat">Scripting</div>
+          <ul><li>Bash</li><li>Python (fundamentals)</li></ul>
+        </div>
+        <div class="stack-cell">
+          <div class="cat">Tools</div>
+          <ul><li>Git / GitHub</li><li>VS Code</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTS -->
+  <section class="section" id="certs">
+    <div class="wrap">
+      <div class="eyebrow">Verified</div>
+      <h2>Certifications</h2>
+
+      <div class="certs">
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3l-6.3 4.4 2.3-7.1-6-4.4h7.6z"/></svg>
+          </div>
+          <div>
+            <h4>AWS Cloud Practitioner Essentials</h4>
+            <p>Amazon Web Services — July 2026</p>
+          </div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3l-6.3 4.4 2.3-7.1-6-4.4h7.6z"/></svg>
+          </div>
+          <div>
+            <h4>Aruba Networking Essentials</h4>
+            <p>David Bombal — July 2026</p>
+          </div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3l-6.3 4.4 2.3-7.1-6-4.4h7.6z"/></svg>
+          </div>
+          <div>
+            <h4>Hack4u — Linux Customization</h4>
+            <p>Completed</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:44px"></div>
+
+      <div class="eyebrow">Languages</div>
+      <div class="lang-row">
+        <div class="lang-chip"><span class="name">Italian</span><span class="level mono">native</span></div>
+        <div class="lang-chip"><span class="name">Spanish</span><span class="level mono">native</span></div>
+        <div class="lang-chip"><span class="name">Romanian</span><span class="level mono">fluent</span></div>
+        <div class="lang-chip"><span class="name">English</span><span class="level mono">B2</span></div>
+        <div class="lang-chip"><span class="name">German</span><span class="level mono">learning</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="contact-box">
+        <h2>Let's talk infrastructure.</h2>
+        <p>Open to junior Technical Support, NOC, and Infrastructure Support roles — EU/EFTA, including Switzerland.</p>
+        <div class="contact-links">
+          <a class="btn btn-primary" href="mailto:andrea.ronconi.jobs@gmail.com">andrea.ronconi.jobs@gmail.com</a>
+          <a class="btn btn-ghost" href="https://github.com/gt0u-labs" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn-ghost" href="https://linkedin.com/in/andrearonconi" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>gt0u_labs — Bucharest, Romania — built by hand, no template</p>
+  </footer>
+
+</main>
+
+<script>
+  // Terminal typing animation — types the command, then instantly prints the (dim) response
+  const lines = [
+    { cmd: 'ssh gt0u@proxmox', resp: 'Node up. 2 VMs running. 0 alerts.' },
+    { cmd: 'docker compose ps', resp: 'grafana · loki · promtail — all healthy' },
+  ];
+  const el = document.getElementById('termBody');
+  let rendered = '';
+
+  function renderCursor() {
+    el.innerHTML = rendered + '<span class="term-cursor"></span>';
+  }
+
+  function typeCommand(cmd, onDone) {
+    let i = 0;
+    rendered += '<span class="prompt">~$ </span>';
+    renderCursor();
+    const t = setInterval(() => {
+      if (i < cmd.length) {
+        rendered += cmd[i];
+        renderCursor();
+        i++;
+      } else {
+        clearInterval(t);
+        rendered += '\n';
+        onDone();
+      }
+    }, 32);
+  }
+
+  function runLine(index) {
+    if (index >= lines.length) { renderCursor(); return; }
+    const { cmd, resp } = lines[index];
+    typeCommand(cmd, () => {
+      setTimeout(() => {
+        rendered += `<span style="color:#5c6b74">${resp}</span>\n\n`;
+        renderCursor();
+        setTimeout(() => runLine(index + 1), 700);
+      }, 250);
+    });
+  }
+
+  if (el) runLine(0);
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.section, .arch, .proj-card, .cert-card, .stack-cell');
+  revealEls.forEach(e => e.classList.add('reveal'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(e => io.observe(e));
+</script>
+</body>
+</html>
