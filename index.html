@@ -214,7 +214,7 @@
       <a href="#architecture">Architecture</a>
       <a href="#projects">Projects</a>
       <a href="#stack">Stack</a>
-      <a href="#certs">Certifications</a>
+      <a href="#certs">Training</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
@@ -225,9 +225,9 @@
   <!-- HERO -->
   <section class="hero">
     <div class="wrap">
-      <div class="status-line"><span class="dot"></span>OPEN TO WORK — EU / EFTA / SWITZERLAND</div>
+      <div class="status-line"><span class="dot"></span>OPEN TO WORK — TICINO (CH) · ITALY</div>
       <h1>I build infrastructure. Then I break it on purpose — <span class="accent">so I actually understand it.</span></h1>
-      <p class="lede">Self-taught systems professional — Linux, Docker, virtualization and monitoring — based in Bucharest, Romania. Italian citizen, open to relocation.</p>
+      <p class="lede">Self-taught systems profile — Linux, Docker, virtualization and monitoring — based in Bucharest, Romania. Italian citizen (EU), open to relocating to Ticino or Italy.</p>
 
       <div class="terminal">
         <div class="term-bar"><span class="term-dot" style="background:#ff5f56"></span><span class="term-dot" style="background:#ffbd2e"></span><span class="term-dot" style="background:#27c93f"></span></div>
@@ -239,6 +239,7 @@
         <span class="pill">Proxmox VE</span>
         <span class="pill">Grafana / Loki</span>
         <span class="pill">Networking</span>
+        <span class="pill">Blue Team</span>
       </div>
       <div class="hero-cta">
         <a class="btn btn-primary" href="mailto:andrea.ronconi.jobs@gmail.com">Get in touch</a>
@@ -297,7 +298,7 @@
             <rect x="742" y="182" width="178" height="42" rx="6" fill="#151b23" stroke="#2a3441"/>
             <text x="752" y="199" class="node-label">Kali Linux VM</text>
             <text x="752" y="215" class="node-sub">nmap · recon practice</text>
-            <text x="742" y="252" class="node-sub" fill="#e8a33d">VM provisioning</text>
+            <text x="742" y="252" class="node-sub" fill="#e8a33d">GPU passthrough (VFIO)</text>
             <text x="742" y="266" class="node-sub" fill="#e8a33d">LVM storage</text>
           </g>
         </svg>
@@ -310,37 +311,24 @@
   <section class="section" id="projects">
     <div class="wrap">
       <div class="eyebrow">Selected work</div>
-      <h2>Infrastructure projects</h2>
+      <h2>Infrastructure &amp; security projects</h2>
       <p class="desc">Each one was set up, broken on purpose, fixed, and documented — not followed from a tutorial.</p>
 
       <div class="projects">
 
         <div class="proj-card">
           <div class="proj-top">
-            <h3>GPU Passthrough & Local LLM Inference</h3>
+            <h3>GPU Passthrough (VFIO) — Troubleshooting &amp; Local LLM</h3>
             <span class="proj-date mono">2026</span>
           </div>
-          <p>Configured GPU passthrough on Proxmox VE — tracked down and fixed a PCIe device-visibility issue in the host configuration — to run local LLM inference inside a VM via Ollama and Open WebUI, deployed with Docker.</p>
+          <p>Set up GPU passthrough on Proxmox VE. When it failed, traced it through <span class="mono">dmesg</span> to a PCI ROM signature error, fixed it with a card-specific VBIOS (<span class="mono">romfile=</span>), then mapped USB devices and corrected the VM boot order. The passed-through GPU is also used for local LLM inference via Ollama and Open WebUI. Documented step by step — including the driver mistake that forced a full rebuild.</p>
           <div class="tag-row">
             <span class="tag">Proxmox VE</span>
-            <span class="tag">GPU Passthrough</span>
+            <span class="tag">VFIO</span>
+            <span class="tag">dmesg</span>
             <span class="tag">Ollama</span>
-            <span class="tag">Docker</span>
           </div>
-        </div>
-
-        <div class="proj-card">
-          <div class="proj-top">
-            <h3>Virtualization & Security Lab</h3>
-            <span class="proj-date mono">2026</span>
-          </div>
-          <p>Two-VM lab on Proxmox VE: an Ubuntu Server target and a dedicated Kali Linux environment. Used Nmap to identify open services, versions and attack surface in a fully controlled setting.</p>
-          <div class="tag-row">
-            <span class="tag">Proxmox VE</span>
-            <span class="tag">Kali Linux</span>
-            <span class="tag">Nmap</span>
-            <span class="tag">LVM</span>
-          </div>
+          <a class="proj-link" href="https://github.com/gt0u-labs/security-learning-log/blob/main/writeups/proxmox-gpu-passthrough.md" target="_blank" rel="noopener">→ Read the write-up</a>
         </div>
 
         <div class="proj-card">
@@ -359,7 +347,7 @@
 
         <div class="proj-card">
           <div class="proj-top">
-            <h3>Service Monitoring & Incident Response</h3>
+            <h3>Service Monitoring &amp; Incident Response</h3>
             <span class="proj-date mono">2025</span>
           </div>
           <p>Simulated a service outage on purpose, detected it through Uptime Kuma, restored it, and wrote a full incident report with timeline and root-cause notes.</p>
@@ -372,17 +360,46 @@
 
         <div class="proj-card">
           <div class="proj-top">
+            <h3>Virtualization &amp; Security Lab</h3>
+            <span class="proj-date mono">2026</span>
+          </div>
+          <p>Two-VM lab on Proxmox VE: an Ubuntu Server target and a dedicated Kali Linux environment. Used Nmap to identify open services, versions and attack surface in a fully controlled setting.</p>
+          <div class="tag-row">
+            <span class="tag">Proxmox VE</span>
+            <span class="tag">Kali Linux</span>
+            <span class="tag">Nmap</span>
+            <span class="tag">LVM</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
+            <h3>Defensive Security Training Log</h3>
+            <span class="proj-date mono">2026</span>
+          </div>
+          <p>64 modules, rooms and machines completed across HTB Academy, HTB Labs and TryHackMe, organized by role — blue team first: alert triage, log analysis, phishing and email header analysis (SPF/DKIM/DMARC), traffic analysis.</p>
+          <div class="tag-row">
+            <span class="tag">Blue Team</span>
+            <span class="tag">Log Analysis</span>
+            <span class="tag">Phishing Analysis</span>
+            <span class="tag">HTB · THM</span>
+          </div>
+          <a class="proj-link" href="https://github.com/gt0u-labs/security-learning-log" target="_blank" rel="noopener">→ gt0u-labs/security-learning-log</a>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-top">
             <h3>Responsible Disclosure — Valve / Steam Link</h3>
             <span class="proj-date mono">2025</span>
           </div>
-          <p>Identified and reported an outdated FFmpeg dependency in the Steam Link Linux client through Valve's disclosure process — practical exposure to vulnerability analysis and reporting, independent of the outcome.</p>
+          <p>Identified and reported an outdated FFmpeg dependency in the Steam Link Linux client through Valve's disclosure process (triaged) — practical exposure to vulnerability analysis and reporting.</p>
           <div class="tag-row">
             <span class="tag">CVE Review</span>
             <span class="tag">Responsible Disclosure</span>
           </div>
         </div>
 
-        <a class="proj-link" href="https://github.com/gt0u-labs/homelab-notes" target="_blank" rel="noopener">→ Full documentation on GitHub: gt0u-labs/homelab-notes</a>
+        <a class="proj-link" href="https://github.com/gt0u-labs/homelab-notes" target="_blank" rel="noopener">→ Full lab documentation on GitHub: gt0u-labs/homelab-notes</a>
       </div>
     </div>
   </section>
@@ -400,7 +417,7 @@
         </div>
         <div class="stack-cell">
           <div class="cat">Virtualization</div>
-          <ul><li>Proxmox VE</li><li>VM provisioning, LVM storage</li></ul>
+          <ul><li>Proxmox VE</li><li>VM provisioning, LVM, GPU passthrough</li></ul>
         </div>
         <div class="stack-cell">
           <div class="cat">Containers</div>
@@ -416,7 +433,7 @@
         </div>
         <div class="stack-cell">
           <div class="cat">Security</div>
-          <ul><li>Nmap, Burp Suite</li><li>CVE review</li></ul>
+          <ul><li>Nmap, Burp Suite</li><li>CVE review, phishing analysis</li></ul>
         </div>
         <div class="stack-cell">
           <div class="cat">Scripting</div>
@@ -430,11 +447,11 @@
     </div>
   </section>
 
-  <!-- CERTS -->
+  <!-- TRAINING -->
   <section class="section" id="certs">
     <div class="wrap">
-      <div class="eyebrow">Verified</div>
-      <h2>Certifications</h2>
+      <div class="eyebrow">Training</div>
+      <h2>Courses &amp; training</h2>
 
       <div class="certs">
         <div class="cert-card">
@@ -442,8 +459,17 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3l-6.3 4.4 2.3-7.1-6-4.4h7.6z"/></svg>
           </div>
           <div>
+            <h4>Hands-on security training</h4>
+            <p>HTB Academy · HTB Labs · TryHackMe — 64 completed</p>
+          </div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3l-6.3 4.4 2.3-7.1-6-4.4h7.6z"/></svg>
+          </div>
+          <div>
             <h4>AWS Cloud Practitioner Essentials</h4>
-            <p>Amazon Web Services — July 2026</p>
+            <p>Course · AWS Skill Builder — July 2026</p>
           </div>
         </div>
         <div class="cert-card">
@@ -452,7 +478,7 @@
           </div>
           <div>
             <h4>Aruba Networking Essentials</h4>
-            <p>David Bombal — July 2026</p>
+            <p>Course · David Bombal — July 2026</p>
           </div>
         </div>
         <div class="cert-card">
@@ -460,8 +486,8 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3l-6.3 4.4 2.3-7.1-6-4.4h7.6z"/></svg>
           </div>
           <div>
-            <h4>Hack4u — Linux Customization</h4>
-            <p>Completed</p>
+            <h4>CompTIA Network+</h4>
+            <p>In progress — studying</p>
           </div>
         </div>
       </div>
@@ -474,7 +500,7 @@
         <div class="lang-chip"><span class="name">Spanish</span><span class="level mono">native</span></div>
         <div class="lang-chip"><span class="name">Romanian</span><span class="level mono">fluent</span></div>
         <div class="lang-chip"><span class="name">English</span><span class="level mono">B2</span></div>
-        <div class="lang-chip"><span class="name">German</span><span class="level mono">learning</span></div>
+        <div class="lang-chip"><span class="name">German</span><span class="level mono">A1 · learning</span></div>
       </div>
     </div>
   </section>
@@ -484,7 +510,7 @@
     <div class="wrap">
       <div class="contact-box">
         <h2>Let's talk infrastructure.</h2>
-        <p>Open to junior Technical Support, NOC, and Infrastructure Support roles — EU/EFTA, including Switzerland.</p>
+        <p>Open to Technical Support, Service Desk, NOC and Infrastructure roles — Ticino (Switzerland), including as a cross-border commuter, and Italy.</p>
         <div class="contact-links">
           <a class="btn btn-primary" href="mailto:andrea.ronconi.jobs@gmail.com">andrea.ronconi.jobs@gmail.com</a>
           <a class="btn btn-ghost" href="https://github.com/gt0u-labs" target="_blank" rel="noopener">GitHub</a>
