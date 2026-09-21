@@ -253,9 +253,9 @@
   <!-- ARCHITECTURE -->
   <section class="section" id="architecture">
     <div class="wrap">
-      <div class="eyebrow">What I actually run</div>
+      <div class="eyebrow">What I built</div>
       <h2>A two-node homelab, built and documented from scratch</h2>
-      <p class="desc">Not a diagram of a hypothetical system — this is the real lab, managed entirely over SSH and a web console, no keyboard or monitor required day-to-day.</p>
+      <p class="desc">Not a diagram of a hypothetical system — this is the real lab I built and ran in 2025–2026, managed over SSH and the Proxmox web console. The hardware has since been repurposed; the full setup and every fix are documented on GitHub.</p>
 
       <div class="arch">
         <svg class="node-svg" viewBox="0 0 960 340" xmlns="http://www.w3.org/2000/svg">
@@ -294,15 +294,15 @@
             <text x="742" y="115" class="node-sub">bare-metal hypervisor</text>
             <rect x="742" y="130" width="178" height="42" rx="6" fill="#151b23" stroke="#2a3441"/>
             <text x="752" y="147" class="node-label">Ubuntu Server VM</text>
-            <text x="752" y="163" class="node-sub">general-purpose target</text>
+            <text x="752" y="163" class="node-sub">target · local LLM (Ollama)</text>
             <rect x="742" y="182" width="178" height="42" rx="6" fill="#151b23" stroke="#2a3441"/>
             <text x="752" y="199" class="node-label">Kali Linux VM</text>
-            <text x="752" y="215" class="node-sub">nmap · recon practice</text>
+            <text x="752" y="215" class="node-sub">nmap · GPU passthrough</text>
             <text x="742" y="252" class="node-sub" fill="#e8a33d">GPU passthrough (VFIO)</text>
             <text x="742" y="266" class="node-sub" fill="#e8a33d">LVM storage</text>
           </g>
         </svg>
-        <p class="arch-caption">Managed remotely · SSH + Proxmox web console · zero on-site interaction required</p>
+        <p class="arch-caption">Managed remotely · SSH + Proxmox web console · 2025–2026 · fully documented</p>
       </div>
     </div>
   </section>
@@ -318,10 +318,10 @@
 
         <div class="proj-card">
           <div class="proj-top">
-            <h3>GPU Passthrough (VFIO) — Troubleshooting &amp; Local LLM</h3>
+            <h3>GPU Passthrough (VFIO) — Troubleshooting</h3>
             <span class="proj-date mono">2026</span>
           </div>
-          <p>Set up GPU passthrough on Proxmox VE. When it failed, traced it through <span class="mono">dmesg</span> to a PCI ROM signature error, fixed it with a card-specific VBIOS (<span class="mono">romfile=</span>), then mapped USB devices and corrected the VM boot order. The passed-through GPU is also used for local LLM inference via Ollama and Open WebUI. Documented step by step — including the driver mistake that forced a full rebuild.</p>
+          <p>The Proxmox web console was too laggy for GUI tools like Burp Suite, so I passed the GPU through to the Kali VM and ran it on a physical monitor. When it failed, I traced it through <span class="mono">dmesg</span> to a PCI ROM signature error, fixed it with a card-specific VBIOS (<span class="mono">romfile=</span>), then mapped USB devices and corrected the VM boot order. A separate Ubuntu Server VM ran local LLMs with Ollama and Open WebUI. Documented step by step — including the driver mistake that forced a full rebuild.</p>
           <div class="tag-row">
             <span class="tag">Proxmox VE</span>
             <span class="tag">VFIO</span>
@@ -336,7 +336,7 @@
             <h3>Centralized Log Monitoring Stack</h3>
             <span class="proj-date mono">2026</span>
           </div>
-          <p>Self-hosted observability stack aggregating logs from multiple Docker services into a single searchable dashboard — the same underlying principle behind SIEM tooling.</p>
+          <p>Built and ran a self-hosted observability stack aggregating logs from multiple Docker services into a single searchable dashboard — the same underlying principle behind SIEM tooling.</p>
           <div class="tag-row">
             <span class="tag">Grafana</span>
             <span class="tag">Loki</span>
@@ -486,6 +486,15 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3l-6.3 4.4 2.3-7.1-6-4.4h7.6z"/></svg>
           </div>
           <div>
+            <h4><a href="https://oaiacademy.credential.net/7a781887-db89-48a8-b4da-0ac78e56aff3" target="_blank" rel="noopener">Apply AI at Work — Pathway Certificate ↗</a></h4>
+            <p>OpenAI Academy — September 2026</p>
+          </div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e8a33d" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.1L12 16.3l-6.3 4.4 2.3-7.1-6-4.4h7.6z"/></svg>
+          </div>
+          <div>
             <h4>CompTIA Network+</h4>
             <p>In progress — studying</p>
           </div>
@@ -529,8 +538,8 @@
 <script>
   // Terminal typing animation — types the command, then instantly prints the (dim) response
   const lines = [
-    { cmd: 'ssh gt0u@proxmox', resp: 'Node up. 2 VMs running. 0 alerts.' },
-    { cmd: 'docker compose ps', resp: 'grafana · loki · promtail — all healthy' },
+    { cmd: 'cat lab/README.md', resp: 'Two-node lab: built, broken, fixed — fully documented.' },
+    { cmd: 'ls writeups/', resp: 'proxmox-gpu-passthrough.md' },
   ];
   const el = document.getElementById('termBody');
   let rendered = '';
